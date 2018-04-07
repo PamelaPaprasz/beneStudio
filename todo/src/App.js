@@ -58,6 +58,8 @@ class App extends Component {
     // ADAPT THE HTML OUTPUT SO TODOS IS RENDERED OUT
     return (
       <div>
+        <TodoInput></TodoInput>
+        <hr/>
         <h4>Todo Count: <span>{this.state.todos.length}</span></h4>
         <ul>
           {this.state.todos.map((todo, index) =>
@@ -73,6 +75,84 @@ class App extends Component {
         </ul>
       </div>
     );
+  }
+}
+
+//IMPLEMENT NEW COMPONENT TodoInput
+class TodoInput extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      todoTitle: '',
+      todoResponsible: '',
+      todoDescription: '',
+      todoPriority: 'Lowest'
+    }
+
+  }
+
+  render() {
+    return (
+      <div>
+        <h4>Add New Todo</h4>
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="inputTodoTitle"></label>
+            <div>
+              <input name="todoTitle"
+                      type="text"
+                      id="inputTodoTitle"
+                      value={this.state.todoTitle}
+                      onChange={this.handleInputChange}
+                      placeholder="Title">
+              </input>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="inputTodoResponsible"></label>
+            <div>
+              <input name="todoTitle"
+                      type="text"
+                      id="inputTodoResponsible"
+                      value={this.state.todoResponsible}
+                      onChange={this.handleInputChange}
+                      placeholder="Responsible Preson">
+              </input>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="inputTodoDesc"></label>
+            <div>
+              <textarea name="todoDescription"
+                      row="3"
+                      id="inputTodoDesc"
+                      value={this.state.todoDescription}
+                      onChange={this.handleInputChange}>
+              </textarea>
+            </div>
+          </div>
+          <div>
+            <label htmlFor="inputTodoPriority"></label>
+            <div>
+              <select name="todoPriority"
+                      id="inputTodoPriority"
+                      value={this.state.todoPriority}
+                      onChange={this.handleInputChange}>
+                  <option>Lowest</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                  <option>Highest</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <button type="submit">Add Todo</button>
+          </div>
+        </form>
+      </div>
+    )
   }
 }
 
