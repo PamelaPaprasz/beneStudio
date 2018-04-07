@@ -38,6 +38,8 @@ class App extends Component {
     this.state = {
       todos
     };
+
+    this.handleAddTodo = this.handleAddTodo.bind(this);
   }
 
   // IMPLEMENT handleRemoveTodo
@@ -53,12 +55,16 @@ class App extends Component {
     })
   }
 
+  handleAddTodo(todo) {
+    this.setState({todos: [...this.state.todos, todo]})
+  }
+
 
   render() {
     // ADAPT THE HTML OUTPUT SO TODOS IS RENDERED OUT
     return (
       <div>
-        <TodoInput></TodoInput>
+        <TodoInput onAddTodo={this.handleAddTodo}></TodoInput>
         <hr/>
         <h4>Todo Count: <span>{this.state.todos.length}</span></h4>
         <ul>
@@ -92,6 +98,7 @@ class TodoInput extends Component {
 
     //this way we make sure to get access to this object from the handleInputChange method too
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(event) {
@@ -104,6 +111,20 @@ class TodoInput extends Component {
     })
   }
 
+  handleSubmit(event) {
+    //in order to prevent the default behavior of submit event
+    event.preventDefault();
+    //props is an object of the component class which gives us access to all of the properties
+    //we work here with one of the properties called onAddTodo
+    //and we pass the current internal state object as a parameter (it has all the new values of our input form) in to this method
+    this.props.onAddTodo(this.state);
+    this.setState({
+      todoTitle: '',
+      todoResponsible: '',
+      todoDescription: '',
+      todoPriority: 'Lowest'
+    });
+  }
 
   render() {
     return (
