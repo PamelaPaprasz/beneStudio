@@ -92,6 +92,7 @@ export default class TodoInput extends React.Component {
             <div>
               <input name="todoResponsible"
                       type="text"
+                      autoComplete="off"
                       id="inputTodoResponsible"
                       value={this.state.todoResponsible}
                       onChange={this.handleInputChange}

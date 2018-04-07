@@ -40,7 +40,7 @@ class App extends Component {
 
     // TODOS is available in state object now
     this.state = {
-      todos
+      todos: []
     };
 
     this.handleAddTodo = this.handleAddTodo.bind(this);
