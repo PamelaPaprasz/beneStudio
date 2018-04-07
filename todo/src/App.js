@@ -90,7 +90,20 @@ class TodoInput extends Component {
       todoPriority: 'Lowest'
     }
 
+    //this way we make sure to get access to this object from the handleInputChange method too
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    })
+  }
+
 
   render() {
     return (
