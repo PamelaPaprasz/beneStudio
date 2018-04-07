@@ -40,6 +40,20 @@ class App extends Component {
     };
   }
 
+  // IMPLEMENT handleRemoveTodo
+
+  handleRemoveTodo(index) {
+    // modifying the state of the component in order to move the current todo item from the todos array
+    this.setState({
+      //passing a new value to todos array by filtering through the recent state of todos array
+      todos: this.state.todos.filter(function(e, i){
+        //all of the element will be returned ad added to the new array which is returned by the filter function which has no the same index as the element we want to delete
+        return i !== index;
+      })
+    })
+  }
+
+
   render() {
     // ADAPT THE HTML OUTPUT SO TODOS IS RENDERED OUT
     return (
@@ -53,7 +67,7 @@ class App extends Component {
               <p>{todo.todoResponsible}</p>
               <p>{todo.todoDescription}</p>
 
-              <button>Delete</button>
+              <button onClick={this.handleRemoveTodo.bind(this, index)}>Delete</button>
             </li>
           )}
         </ul>
