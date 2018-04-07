@@ -34,21 +34,29 @@ class App extends Component {
     // CALLING SUPER YOU MAKE SURE THAT PROPS PARAMETER IS PASSED TO THE PARENT CONSTRUCTOR TOO
     super(props);
 
+    // TODOS is available in state object now
     this.state = {
       todos
     };
   }
 
   render() {
+    // ADAPT THE HTML OUTPUT SO TODOS IS RENDERED OUT
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <h4>Todo Count: <span>{this.state.todos.length}</span></h4>
+        <ul>
+          {this.state.todos.map((todo, index) =>
+            <li key={index}>
+              <h4>{todo.todoTitle}<small><span>{todo.todoPriority}</span></small></h4>
+              
+              <p>{todo.todoResponsible}</p>
+              <p>{todo.todoDescription}</p>
+
+              <button>Delete</button>
+            </li>
+          )}
+        </ul>
       </div>
     );
   }
