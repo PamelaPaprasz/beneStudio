@@ -2,31 +2,10 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import TodoInput from './todo-input';
+import _ from 'lodash';
 
 // 1. ADD DATA MODEL TO THE APP
-var todos = [
-  {
-    todoTitle: 'My first todo',
-    todoResponsible: 'Pami',
-    todoDescription: 'My first todo description',
-    todoPriority: 'low',
-    todoStatus: 'do'
-  },
-  {
-    todoTitle: 'My second todo',
-    todoResponsible: 'Pami',
-    todoDescription: 'My second todo description',
-    todoPriority: 'medium',
-    todoStatus: 'do'
-  },
-  {
-    todoTitle: 'My third todo',
-    todoResponsible: 'Pami',
-    todoDescription: 'My third todo description',
-    todoPriority: 'heigh',
-    todoStatus: 'do'
-  }
-];
+var todos;
 
 // 2. SIGN DATA MODEL (make it avaliable) TO THE INTERNAL COMPONENT STATE
 // every component has an internal component state which contains the data which is used by the component and the state is an object which can be modified 
@@ -44,7 +23,6 @@ class App extends Component {
     };
 
     this.handleAddTodo = this.handleAddTodo.bind(this);
-    // this.handleEditTodo = this.handleEditTodo.bind(this);
   }
 
   // IMPLEMENT handleRemoveTodo
@@ -60,12 +38,64 @@ class App extends Component {
     })
   }
 
+  handleSaveTodo(oldTask, newTask) {
+    const foundTodo = _.find(this.state.todos, todo => todo.todoDescription === oldTask);
+    foundTodo.todoDescription = newTask;
+    this.setState({ todos: this.state.todos });
+  }
+
   handleAddTodo(todo) {
     this.setState({todos: [...this.state.todos, todo]})
   }
 
   handleEditTodo(index) {
-    console.log(index);
+    if(this.state.todos[index].isEditing) { 
+      return(
+        <textarea name="todoDescription"
+                  row="3"
+                  id="inputTodoDesc"
+                  defaultValue={this.state.todos[index].todoDescription}
+                  ref="editInput" />
+      )
+    }
+    return(
+      <p>{this.state.todos[index].todoDescription}</p> 
+    );
+  }
+
+  handleButtonChange(index) {
+    if (this.state.todos[index].isEditing) {
+      return (
+        <td>
+          <button onClick={this.onSaveClick.bind(this, index)}>Save</button>
+          <button onClick={this.onCancelClick.bind(this, index)}>Cancel</button>
+        </td>
+      );
+    }
+
+    return (
+      <td>
+        <button onClick={this.onEditClick.bind(this, index)}>Edit</button>
+      </td>
+    );
+  }
+
+  onEditClick(index) {
+    this.state.todos[index].isEditing = true;
+    this.setState({ todos: this.state.todos })
+  }
+
+  onCancelClick(index) {
+    this.state.todos[index].isEditing = false;
+    this.setState({ todos: this.state.todos })
+  }
+
+  onSaveClick(index) {
+    const oldTask = this.state.todos[index].todoDescription;
+    const newTask = this.refs.editInput.value;
+    this.handleSaveTodo(oldTask, newTask);
+    this.state.todos[index].isEditing = false;
+    this.setState({ todos: this.state.todos })
   }
 
 
@@ -81,11 +111,12 @@ class App extends Component {
             <li key={index}>
               <h4>{todo.todoTitle}<small><span>{todo.todoPriority}</span></small></h4>
               
-              <p>{todo.todoResponsible}</p>
-              <p>{todo.todoDescription}</p>
+              <p>{todo.todoResponsible}</p> 
+              {this.handleEditTodo(index)}   
 
               <button onClick={this.handleRemoveTodo.bind(this, index)}>Delete</button>
-              <button onClick={this.handleEditTodo.bind(this, index)}>Edit</button>
+              {this.handleButtonChange(index)}
+            
               <div>
                 <label htmlFor="inputTodoStatus"></label>
                 <div>

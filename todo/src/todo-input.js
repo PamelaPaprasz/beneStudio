@@ -11,7 +11,8 @@ export default class TodoInput extends React.Component {
       todoResponsible: '',
       todoDescription: '',
       todoPriority: 'Lowest',
-      error: null
+      error: null,
+      isEditing: false
     }
 
     //this way we make sure to get access to this object from the handleInputChange method too
