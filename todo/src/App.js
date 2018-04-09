@@ -4,6 +4,8 @@ import './App.css';
 import _ from 'lodash';
 import FlipMove from "react-flip-move";
 
+var randomColor;
+
 // 1. ADD DATA MODEL TO THE APP
 var todos;
 
@@ -19,7 +21,8 @@ class App extends Component {
 
     // TODOS is available in state object now
     this.state = {
-      todos: []
+      todos: [],
+      randomColor: 'yellow'
     };
 
     this.handleAddTodo = this.handleAddTodo.bind(this);
@@ -50,32 +53,51 @@ class App extends Component {
 
   handleAddTodo(todo) {
     this.setState({todos: [...this.state.todos, todo]})
+    this.setRandomColor();
   }
 
   handleEditTodo(index) {
     if(this.state.todos[index].isEditing) { 
       return(
-        <div>
-          <input name="todoTitle"
-                  type="text"
-                  autoComplete="off"
-                  id="inputTodoTitle"
-                  defaultValue={this.state.todos[index].todoTitle}
-                  ref="editInputTitle">
-          </input>
-          <input name="todoResponsible"
-                  type="text"
-                  autoComplete="off"
-                  id="inputTodoResponsible"
-                  defaultValue={this.state.todos[index].todoResponsible}
-                  ref="editInputResponsible">
-          </input>
-          <textarea name="todoDescription"
-                    row="3"
-                    id="inputTodoDesc"
-                    defaultValue={this.state.todos[index].todoDescription}
-                    ref="editInputDesc" />
-        </div>
+        <form className="form-horizontal">
+          <div className="form-group">
+            <label htmlFor="inputTodoTitle" className="col-sm-2 control-label">TODO</label>
+            <div className="col-sm-10">
+              <input name="todoTitle"
+                      className="form-control"
+                      type="text"
+                      autoComplete="off"
+                      id="inputTodoTitle"
+                      defaultValue={this.state.todos[index].todoTitle}
+                      ref="editInputTitle">
+              </input>
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputTodoResponsible" className="col-sm-2 control-label">responsible</label>
+            <div className="col-sm-10">
+              <input name="todoResponsible"
+                      className="form-control"
+                      type="text"
+                      autoComplete="off"
+                      id="inputTodoResponsible"
+                      defaultValue={this.state.todos[index].todoResponsible}
+                      ref="editInputResponsible">
+              </input>
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputTodoDesc" className="col-sm-2 control-label">description</label>
+            <div className="col-sm-10">
+              <textarea name="todoDescription"
+                        className="form-control"
+                        row="3"
+                        id="inputTodoDesc"
+                        defaultValue={this.state.todos[index].todoDescription}
+                        ref="editInputDesc" />
+            </div>
+          </div>
+        </form>
       )
     }
     return(
@@ -125,6 +147,11 @@ class App extends Component {
     this.setState({ todos: this.state.todos })
   }
 
+  setRandomColor() {
+    randomColor = "#"+((1<<24)*Math.random()|0).toString(16);
+    this.state.randomColor = randomColor;
+    this.setState({randomColor: this.state.randomColor});
+  }
 
   render() {
     // ADAPT THE HTML OUTPUT SO TODOS IS RENDERED OUT
@@ -133,11 +160,11 @@ class App extends Component {
         <TodoInput todos={this.state.todos} onAddTodo={this.handleAddTodo}></TodoInput>
         <hr/>
         <div className="container">
-          <h4>Todo Count: <span className="badge badge-pill">{this.state.todos.length}</span></h4>
+          <h4>All Todo: <span className="badge badge-pill">{this.state.todos.length}</span></h4>
           <ul className="list-group">
-            <FlipMove duration={250} easing="ease-out">
+            <FlipMove duration={250} easing="ease-out" class="list">
               {this.state.todos.map((todo, index) =>
-                <li key={index} className="list-group-item" class="todo-el">
+                <li key={index} className="list-group-item todo-el" style={{background: randomColor}}>
 
                   {this.handleEditTodo(index)}   
 

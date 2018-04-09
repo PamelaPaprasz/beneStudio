@@ -18,7 +18,10 @@ export default class TodoInput extends React.Component {
     //this way we make sure to get access to this object from the handleInputChange method too
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // this.setRandomColor = this.setRandomColor.bind(this);
   }
+
+  
 
   handleInputChange(event) {
     const target = event.target;
@@ -34,7 +37,7 @@ export default class TodoInput extends React.Component {
     //in order to prevent the default behavior of submit event
     event.preventDefault();
 
-    const validateInput = this.validateInput(this.state.todoTitle);
+    const validateInput = this.validateInput(this.state.todoTitle, this.state.todoResponsible, this.state.todoDescription);
 
     if (validateInput) {
       this.setState({ error: validateInput });
@@ -45,6 +48,7 @@ export default class TodoInput extends React.Component {
     //we work here with one of the properties called onAddTodo
     //and we pass the current internal state object as a parameter (it has all the new values of our input form) in to this method
     this.props.onAddTodo(this.state);
+    console.log('on add element', this.state);
     this.setState({
       todoTitle: '',
       todoResponsible: '',
@@ -54,11 +58,15 @@ export default class TodoInput extends React.Component {
     });
   }
 
-  validateInput(newTaskTitle) {
+  validateInput(newTaskTitle, newTaskResponsible, newTaskDesc) {
     if (!newTaskTitle) {
       return 'Please enter a task.';
     } else if (_.find(this.props.todos, todo => todo.todoTitle === newTaskTitle)) {
       return 'Task already exists.';
+    } else if (!newTaskResponsible) {
+      return 'Please add the name of who is responsible for doing the task.';
+    } else if (!newTaskDesc) {
+      return 'Please add a description to the todo.';
     } else {
       return null;
     }

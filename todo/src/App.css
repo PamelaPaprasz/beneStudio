@@ -1,4 +1,19 @@
+:root {
+  --main-bg-color: white;
+}
+
+.list {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
 .todo-el {
   background-color: pink;
-  list-style: none;
+  border: 5px solid var(--main-bg-color);
+  /*max-width: 500px;*/
+  width: 250px;
+  height: 100%;
+  text-align: left;
 }
+
