@@ -74,11 +74,12 @@ export default class TodoInput extends React.Component {
     return (
       <div>
         <h4>Add New Todo</h4>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="inputTodoTitle"></label>
-            <div>
+        <form className="form-horizontal" onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="inputTodoTitle" className="col-sm-2 control-label">TODO</label>
+            <div className="col-sm-10">
               <input name="todoTitle"
+                      className="form-control"
                       type="text"
                       autoComplete="off"
                       id="inputTodoTitle"
@@ -88,10 +89,11 @@ export default class TodoInput extends React.Component {
               </input>
             </div>
           </div>
-          <div>
-            <label htmlFor="inputTodoResponsible"></label>
-            <div>
+          <div className="form-group">
+            <label htmlFor="inputTodoResponsible" className="col-sm-2 control-label">responsible</label>
+            <div className="col-sm-10">
               <input name="todoResponsible"
+                      className="form-control"
                       type="text"
                       autoComplete="off"
                       id="inputTodoResponsible"
@@ -101,10 +103,11 @@ export default class TodoInput extends React.Component {
               </input>
             </div>
           </div>
-          <div>
-            <label htmlFor="inputTodoDesc"></label>
-            <div>
+          <div className="form-group">
+            <label htmlFor="inputTodoDesc" className="col-sm-2 control-label">description</label>
+            <div className="col-sm-10">
               <textarea name="todoDescription"
+                      className="form-control"
                       row="3"
                       id="inputTodoDesc"
                       value={this.state.todoDescription}
@@ -112,10 +115,11 @@ export default class TodoInput extends React.Component {
               </textarea>
             </div>
           </div>
-          <div>
-            <label htmlFor="inputTodoPriority"></label>
-            <div>
+          <div className="form-group">
+            <label htmlFor="inputTodoPriority" className="col-sm-2 control-label">priority</label>
+            <div className="col-sm-10">
               <select name="todoPriority"
+                      className="form-control"
                       id="inputTodoPriority"
                       value={this.state.todoPriority}
                       onChange={this.handleInputChange}>
@@ -127,9 +131,11 @@ export default class TodoInput extends React.Component {
               </select>
             </div>
           </div>
-          <div>
-            <button type="submit">Add Todo</button>
-            {this.renderError()}
+          <div className="form-group">
+            <div className="col-sm-offset-2 col-sm-10">
+              <button className="btn btn-success" type="submit">Add Todo</button>
+              {this.renderError()}
+            </div>
           </div>
         </form>
       </div>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import TodoInput from './todo-input';
+import './App.css';
 import _ from 'lodash';
+import FlipMove from "react-flip-move";
 
 // 1. ADD DATA MODEL TO THE APP
 var todos;
@@ -80,9 +80,9 @@ class App extends Component {
     }
     return(
       <div>
-        <h4>{this.state.todos[index].todoTitle}<small><span>{this.state.todos[index].todoPriority}</span></small></h4>
+        <h4 className="list-group-item-heading">{this.state.todos[index].todoTitle} <small><span className="label label-info">{this.state.todos[index].todoPriority}</span></small></h4>
                 
-        <p>{this.state.todos[index].todoResponsible}</p> 
+        <p><span className="glyphicon glyphicon-user"></span> {this.state.todos[index].todoResponsible}</p> 
         <p>{this.state.todos[index].todoDescription}</p> 
       </div>
     );
@@ -91,17 +91,15 @@ class App extends Component {
   handleButtonChange(index) {
     if (this.state.todos[index].isEditing) {
       return (
-        <td>
-          <button onClick={this.onSaveClick.bind(this, index)}>Save</button>
-          <button onClick={this.onCancelClick.bind(this, index)}>Cancel</button>
-        </td>
+        <span>
+          <button className="btn btn-success btn-sm" onClick={this.onSaveClick.bind(this, index)}><span className="glyphicon glyphicon-ok"></span></button>
+          <button className="btn btn-warning btn-sm" onClick={this.onCancelClick.bind(this, index)}><span className="glyphicon glyphicon-remove"></span></button>
+        </span>
       );
     }
 
     return (
-      <td>
-        <button onClick={this.onEditClick.bind(this, index)}>Edit</button>
-      </td>
+        <button className="btn btn-info btn-sm" onClick={this.onEditClick.bind(this, index)}><span className="glyphicon glyphicon-pencil"></span></button>
     );
   }
 
@@ -131,34 +129,38 @@ class App extends Component {
   render() {
     // ADAPT THE HTML OUTPUT SO TODOS IS RENDERED OUT
     return (
-      <div>
+      <div className="container">
         <TodoInput todos={this.state.todos} onAddTodo={this.handleAddTodo}></TodoInput>
         <hr/>
-        <h4>Todo Count: <span>{this.state.todos.length}</span></h4>
-        <ul>
-          {this.state.todos.map((todo, index) =>
-            <li key={index}>
+        <div className="container">
+          <h4>Todo Count: <span className="badge badge-pill">{this.state.todos.length}</span></h4>
+          <ul className="list-group">
+            <FlipMove duration={250} easing="ease-out">
+              {this.state.todos.map((todo, index) =>
+                <li key={index} className="list-group-item" class="todo-el">
 
-              {this.handleEditTodo(index)}   
+                  {this.handleEditTodo(index)}   
 
-              <button onClick={this.handleRemoveTodo.bind(this, index)}>Delete</button>
-              {this.handleButtonChange(index)}
-            
-              <div>
-                <label htmlFor="inputTodoStatus"></label>
-                <div>
-                  <select name="todoStatus"
-                          id="inputTodoStatus"
-                          value={this.state.todoStatus}>
-                    <option>Do</option>
-                    <option>Doing</option>
-                    <option>Done</option>
-                  </select>
-                </div>
-              </div>
-            </li>
-          )}
-        </ul>
+                  <button className="btn btn-danger btn-sm" onClick={this.handleRemoveTodo.bind(this, index)}><span className="glyphicon glyphicon-trash"></span></button>
+                  {this.handleButtonChange(index)}
+                
+                  <div>
+                    <label htmlFor="inputTodoStatus"></label>
+                    <div>
+                      <select name="todoStatus"
+                              id="inputTodoStatus"
+                              value={this.state.todoStatus}>
+                        <option>Do</option>
+                        <option>Doing</option>
+                        <option>Done</option>
+                      </select>
+                    </div>
+                  </div>
+                </li>
+              )}
+            </FlipMove>
+          </ul>
+        </div>
       </div>
     );
   }
