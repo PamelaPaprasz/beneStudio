@@ -4,10 +4,18 @@ import './App.css';
 import _ from 'lodash';
 import FlipMove from "react-flip-move";
 
-var randomColor;
+
 
 // 1. ADD DATA MODEL TO THE APP
-var todos;
+let todos = [{
+    todoTitle: 'title',
+    todoResponsible: 'person',
+    todoDescription: 'description',
+    todoStatus: 'do'
+}];
+let randomColor;
+
+localStorage.setItem('todos', JSON.stringify(todos))
 
 // 2. SIGN DATA MODEL (make it avaliable) TO THE INTERNAL COMPONENT STATE
 // every component has an internal component state which contains the data which is used by the component and the state is an object which can be modified 
@@ -21,15 +29,15 @@ class App extends Component {
 
     // TODOS is available in state object now
     this.state = {
-      todos: [],
+      todos: JSON.parse(localStorage.getItem('todos')),
       randomColor: 'yellow'
     };
 
     this.handleAddTodo = this.handleAddTodo.bind(this);
   }
 
-  // IMPLEMENT handleRemoveTodo
 
+  // IMPLEMENT handleRemoveTodo
   handleRemoveTodo(index) {
     // modifying the state of the component in order to move the current todo item from the todos array
     this.setState({
@@ -61,7 +69,7 @@ class App extends Component {
       return(
         <form className="form-horizontal">
           <div className="form-group">
-            <label htmlFor="inputTodoTitle" className="col-sm-2 control-label">TODO</label>
+            <label htmlFor="inputTodoTitle" className="control-label">TODO</label>
             <div className="col-sm-10">
               <input name="todoTitle"
                       className="form-control"
@@ -74,7 +82,7 @@ class App extends Component {
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="inputTodoResponsible" className="col-sm-2 control-label">responsible</label>
+            <label htmlFor="inputTodoResponsible" className="control-label">responsible</label>
             <div className="col-sm-10">
               <input name="todoResponsible"
                       className="form-control"
@@ -87,7 +95,7 @@ class App extends Component {
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="inputTodoDesc" className="col-sm-2 control-label">description</label>
+            <label htmlFor="inputTodoDesc" className="control-label">description</label>
             <div className="col-sm-10">
               <textarea name="todoDescription"
                         className="form-control"

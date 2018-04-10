@@ -9,7 +9,7 @@
 }
 
 .todo-el {
-  background-color: pink;
+  background-color: rgb(211,211,211);
   border: 5px solid var(--main-bg-color);
   width: 250px;
   height: 100%;
